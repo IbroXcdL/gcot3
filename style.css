@@ -1,0 +1,1254 @@
+  /* General Reset and Base Styles */
+        /* Disable pull-to-refresh and elastic scrolling for all elements */
+        html,
+        body {
+            overscroll-behavior: none;
+            overflow-x: hidden;
+            
+        }
+
+@media (min-width: 720px) {
+  body {
+    display: none !important;
+    overflow-x: hidden;
+  }
+}
+
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            /* UPDATED: Changed from #f7f7f7 to white */
+            color: #333;
+            /* Disable text selection for copy/cut/paste prevention */
+            user-select: none;
+            -webkit-user-select: none;
+            /* Safari */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* IE/Edge */
+            /* Disable the mobile tap highlight color/box */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /*SEACH and NAV Bar */
+        /* --- Focus Outline Removal --- */
+        .search-icon:focus,
+        .search-inner-icon:focus,
+        .search-close-button:focus,
+        .donut-button:focus,
+        button:focus,
+        .search-input:focus,
+        #mobile-search-input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Navbar Container - White with Shadow */
+        .navbar {
+            background-color: #fff;
+            /* White Background */
+            color: #333;
+            /* Dark text for contrast */
+            display: flex;
+            justify-content: space-between;
+            /* Space out the brand and actions */
+            align-items: center;
+            /* UPDATED: Increased padding to 30px on left/right (from 20px) */
+            padding: 0 30px;
+            height: 60px;
+            /* Subtle Black Shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            /* Fixed position */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            /* Ensure navbar is above content */
+        }
+
+        .navbar-brand {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            cursor: default;
+            /* Logo is not clickable */
+        }
+
+        /* Container for Action Buttons (Search, Donut) */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- PC Search Input Wrapper Styling --- */
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            height: 35px;
+            /* Fixed height for consistent alignment */
+            padding-right: 5px;
+            /* Space for the close button */
+
+            /* Animation properties */
+            transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-right 0.3s ease-in-out, border-color 0.1s ease-in-out;
+
+            /* Initial Hidden State (for smooth transition) */
+            width: 0;
+            opacity: 0;
+            pointer-events: none;
+            /* Make it unclickable when hidden */
+            overflow: hidden;
+            /* Hide contents during transition */
+            margin-right: -10px;
+        }
+
+        /* SHAKE ANIMATION KEYFRAMES */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* ERROR STATE FOR PC WRAPPER */
+        .search-input-wrapper.error-state {
+            border-color: #f00;
+            /* Red border */
+            animation: shake 0.4s ease-in-out;
+            /* Apply shake */
+        }
+
+
+        /* Search Input Field inside the wrapper */
+        .search-input {
+            border: none;
+            padding: 0 5px;
+            background-color: transparent;
+            color: #333;
+            flex-grow: 1;
+            /* Input takes up available space */
+            height: 100%;
+        }
+
+        /* Inner Search Icon Button */
+        .search-inner-icon {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1;
+        }
+
+        /* Search Close Button inside the wrapper */
+        .search-close-button {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        /* Search Toggle Icon Button (Visible by default) */
+        .search-icon {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.2s;
+            line-height: 1;
+            z-index: 10;
+        }
+
+        .search-icon:hover {
+            color: #333;
+        }
+
+        /* Donut Button Styling (Original Dark Blue) */
+        .donut-button {
+            background-color: #060730;
+            /* Original Dark Blue */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, width 0.3s;
+            white-space: nowrap;
+            margin-right: 29px;
+            height: 34px;
+        }
+
+        .donut-button:hover {
+            background-color: #1a204d;
+            /* Slightly lighter dark blue on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        /* --- Mobile Search Bar Styling --- */
+        #mobile-search-bar {
+            position: fixed;
+            /* Fixed position so it stays visible even when scrolling */
+            top: 60px;
+            /* Directly below the 60px height navbar */
+            width: 100%;
+            /* Full width container for the fixed bar */
+            z-index: 998;
+            /* Below the main navbar */
+
+            /* Animation for sliding down */
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            /* Make it unclickable when hidden */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            padding: 10px 0;
+            /* Vertical padding only for the container */
+        }
+
+        #mobile-search-bar.active {
+            transform: translateY(0);
+            /* Slide down into view */
+            opacity: 1;
+            pointer-events: auto;
+            /* Enable clicks when active */
+        }
+
+        /* Inner container to control mobile search width and centering */
+        .mobile-search-content {
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+            /* Center the content */
+            background-color: #f0f0f0;
+            /* Light gray background for contrast */
+            padding: 10px 15px;
+            /* Border and Box Shadow are now animated */
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 0px 8px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* Rounded corners */
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+        }
+
+        /* ERROR STATE FOR MOBILE WRAPPER */
+        .mobile-search-content.error-state {
+            border-color: #f00;
+            /* Red border */
+            box-shadow: 0 0px 8px rgba(255, 0, 0, 0.5);
+            /* Enhance error state with glow */
+            animation: shake 0.4s ease-in-out;
+            /* Apply shake */
+        }
+
+        #mobile-search-bar #mobile-search-input {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            font-size: 1rem;
+            height: 40px;
+        }
+
+        #mobile-search-bar button {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 5px;
+            height: 40px;
+        }
+
+        /* --- MAIN CONTENT & VIEW MANAGEMENT --- */
+        .main-content {
+            padding-top: 60px;
+            /* Space for the fixed navbar */
+            min-height: 100vh;
+            background-color: #ffffff;
+            /* UPDATED: Changed from #f7f7f7 to white */
+        }
+
+        .page-view {
+            display: none;
+            /* Hidden by default */
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+            margin-top: -40px;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(1px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- DONUT PAGE STYLING (Card removed) --- */
+        .donut-page-content {
+            /* Main content wrapper for centering and styling */
+            max-width: 700px;
+            margin: 40px auto;
+            /* REMOVED: background, border-radius, box-shadow, padding */
+            text-align: center;
+            min-height: 300px;
+            padding: 0 5px;
+            /* Add padding here for mobile spacing, as it was removed from the general block */
+        }
+
+        /* --- Dropdown Region Selector Styles --- */
+        #region-dropdown-container {
+            position: relative;
+            /* Container for dropdown positioning */
+            display: block;
+            margin: 0 auto 30px auto;
+            /* Center the container and add bottom margin */
+            width: fit-content;
+            /* Only take up the width of the content */
+            text-align: left;
+            /* Align inner content left */
+        }
+
+        #region-select-button {
+            background-color: #060b302c;
+            /* Dark Blue from Donut button */
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 9999px;
+            /* Made the region button fully round */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(6, 11, 48, 0.2);
+            /* Important for full mobile width */
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        #region-select-button:hover {
+            background-color: #060b303a;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s;
+        }
+
+        #region-select-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            /* Position right below the button */
+            left: 0;
+            right: 0;
+            margin-top: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            /* Above other content */
+            list-style: none;
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-5px);
+            transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+            min-width: 100%;
+            /* Ensure it spans the button width */
+            text-align: left;
+        }
+
+        .dropdown-menu.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            width: 100%;
+        }
+
+        .dropdown-menu li button {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #333;
+            transition: background-color 0.1s;
+        }
+
+        .dropdown-menu li:first-child button {
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+        }
+
+        .dropdown-menu li:last-child button {
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+
+        .dropdown-menu li button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown-menu li button.active-region {
+            font-weight: 700;
+            background-color: #060b30;
+            color:#ffffff;
+            /* Highlight selected option */
+        }
+
+        /* --- END NEW DROP DOWN STYLING --- */
+
+
+        /* --- Payment Button Styles (Blended into background) --- */
+        .payment-options {
+            display: none;
+            /* Hidden by default, controlled by JS */
+            text-align: center;
+            /* Changed to match body background and removed visual container styling */
+            background: #ffffff;
+            /* UPDATED: Match new white body background */
+            box-shadow: none;
+            border: none;
+            /* Added vertical padding to separate it from surrounding text */
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .payment-options.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .payment-header {
+            font-weight: 500;
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow wrapping on small screens */
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: -55px;
+        }
+
+        /* Standard Donation Buttons (Dark Blue #060b30) */
+        .payment-button {
+            flex: 1 1 100px;
+            /* Flexible width for responsiveness */
+            max-width: 150px;
+            background-color: #9ca4e021;
+            /* Dark Blue */
+            color: #060b30;
+            border: 1px solid #060b30; /* width, style, color */
+            padding: 9.5px 2px;
+            /* INCREASED horizontal padding for rounder look */
+            border-radius: 9999px;
+            /* Made all payment buttons fully round */
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+        }
+
+        .payment-button:not(.custom-button):hover {
+            background-color: #9ca4e033;
+            /* Slightly darker/hover effect */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Custom Donation Button (Orange #ee6912) */
+        .custom-button {
+            background-color: #060b30;
+            /* Bright Orange */
+            color: white;
+            /* Override the standard button's background-color transition to prevent flickering */
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .custom-button:hover {
+            background-color: #060b30;
+            /* Slightly darker orange on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+/* Donut Page bottom gap */
+        .donut-page-bottom {
+            padding-bottom: 22px;;
+        }
+
+        /* Responsive adjustments for region selector on mobile */
+        @media (max-width: 500px) {
+            #region-dropdown-container {
+                width: 90%;
+                /* Take up most of the mobile screen */
+            }
+
+            
+
+            .payment-button {
+                max-width: 100%;
+                max-height: 52px;;
+
+            }
+        }
+
+        /* --- END STYLING --- */
+
+
+        /* --- DESKTOP-SPECIFIC MEDIA QUERIES --- */
+        @media (min-width: 769px) {
+
+            /* 1. Show PC Wrapper */
+            .search-input-wrapper.active {
+                width: 250px;
+                /* Visible width on desktop */
+                opacity: 1;
+                pointer-events: auto;
+                /* Make it clickable when active */
+                margin-right: 10px;
+                /* Add slight space between wrapper and donut button */
+            }
+
+            /* 2. Hide main toggle icon when PC search wrapper is active */
+            .search-input-wrapper.active~.search-icon {
+                display: none;
+            }
+
+            /* 3. Hide mobile search bar completely on desktop */
+            #mobile-search-bar {
+                display: none !important;
+            }
+        }
+
+        /* --- Mobile View Adjustments (768px and below) --- */
+        @media (max-width: 768px) {
+            .navbar {
+                /* UPDATED: Increased mobile padding to 20px (from 15px) */
+                padding: 0 20px;
+            }
+
+            /* Ensure PC search input wrapper is fully disabled/hidden on mobile */
+            .search-input-wrapper {
+                display: none;
+            }
+
+            /* Ensure mobile search bar is structured for mobile */
+            #mobile-search-bar {
+                display: block;
+                /* Use block to contain the centered child */
+            }
+
+            /* Reduce button padding on mobile for space */
+            .donut-button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .donut-page-content {
+                /* Target the new content wrapper */
+                margin: 20px auto;
+                /* Padding remains 0 20px from desktop block */
+            }
+        }
+
+        /* Desktop styles - cards fill width evenly for top picks start*/
+        @media (min-width: 768px) {
+            .game-card {
+                flex: 1 1 0 !important;
+                min-width: 0;
+                padding: 20px;
+            }
+
+            .game-img {
+                width: 180px !important;
+                height: 180px !important;
+            }
+
+            .play-btn {
+                padding: 12px 24px !important;
+                font-size: 16px !important;
+            }
+        }
+
+        /* Desktop styles - cards fill width evenly for top picks end*/
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .game-card::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        div[style*="overflow-x: auto"] {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        div[style*="overflow-x: auto"]::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+
+
+
+        /*AD 1 STYLE STRAT*/
+        /*==========================*/
+        /*       AD 1 STYLE START   */
+        /*==========================*/
+
+        /* Hide scrollbar for video ads */
+        .video-ads-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0 20px 20px;
+            margin-left: 0;
+            margin-right: 0;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            /* IE/Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .video-ads-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for image ads */
+        .image-ads-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            margin-left: 0px;
+            margin-right: 0px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .image-ads-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Disable right click and long press on videos */
+        .ad-video {
+            pointer-events: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Allow click on video parent link */
+        .video-ad-card a {
+            pointer-events: auto;
+        }
+
+        /* Disable right click and long press on images */
+        .ad-image {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Allow click on image parent link */
+        .image-ad-card a {
+            pointer-events: auto;
+        }
+
+        /* Disable text selection on ad cards */
+        .video-ad-card,
+        .image-ad-card {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        /*==========================*/
+        /*      Height Settings     */
+        /*==========================*/
+
+        /* Default height for mobile/small screens */
+        .video-ad-card,
+        .image-ad-card {
+            flex: 0 0 calc(100% - 20px);
+            /* width of each card */
+            height: 200px;
+            /* mobile default */
+        }
+
+        .video-ad-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            display: block;
+        }
+
+        /* Image ad card (commented out) */
+        /*
+.image-ad-card img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+border-radius: 15px;
+display: block;
+box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+*/
+
+        /*==========================*/
+        /*      Desktop adjustments */
+        /*==========================*/
+        @media (min-width: 768px) {
+
+            .video-ads-container,
+            .image-ads-container {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .video-ad-card:first-child,
+            .image-ad-card:first-child {
+                margin-left: 0;
+            }
+
+            /* Override height for desktop */
+            .video-ad-card,
+            .image-ad-card {
+                height: 380px;
+                /* smaller on desktop */
+            }
+        }
+
+        /*==========================*/
+        /*       AD 1 STYLE END     */
+        /*==========================*/
+
+
+        /*AD 1 STYLE END*/
+
+
+        /*BOTTM NAV BAR START*/
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid #3333330a;
+            z-index: 10;
+        }
+
+        .nav-item {
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #060b30;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            display: block;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        /* Bottom Sheet */
+        .bottom-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+            transition: bottom 0.4s ease;
+            z-index: 15;
+        }
+
+        .bottom-sheet.active {
+            bottom: 0;
+        }
+
+        .sheet-content {
+            padding: 20px;
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 5px;
+            background: #ffffff;
+            border-radius: 10px;
+            margin: 0 auto 15px auto;
+        }
+
+        .bottom-sheet ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bottom-sheet li {
+            padding: 15px;
+            border-bottom: 1px solid #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .bottom-sheet li:hover {
+            background: #ffffff;
+            color: #060b30;
+        }
+        .sheet-separator {
+            height: 1px;
+            background: #3333330a;
+            margin: 10px 0;
+        }
+        /*BOTTM NAV BAR END*/
+
+/*ALL GAMES PAGE START*/
+
+        .game-grid {
+  display: grid;
+  gap: 12px;
+  padding: 10px;
+  grid-template-columns: repeat(2, 1fr); /* Mobile default: 2 per row */
+}
+
+.game-card {
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  padding: 10px;
+}
+
+.game-card img {
+  width: 140px;
+  height: 120px;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.game-card p {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.play-btn {
+  display: inline-block;
+  background-color: #060B30;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Desktop: 5 per row */
+@media (min-width: 1024px) {
+  .game-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+
+
+
+/*Strat curtain */
+/* 🔥 Curtain effect for upcoming games */
+.upcoming .curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+to bottom right,
+    rgb(238, 106, 18),
+    rgba(238, 106, 18, 0.904)
+  );
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #060b30;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 30px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Optional — a soft moving shimmer for realism */
+.upcoming .curtain::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.25) 10%,
+    rgba(255, 255, 255, 0.08) 20%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+  border-radius: 30px;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+
+/*hide game page*/
+#all-games-page-view {
+    display: none; /* Hidden by default */
+}
+
+
+
+/*Recently palyed and favourites */
+
+.games-filter-menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.games-filter-menu .filter-btn {
+
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    background: #9ca4e021;
+    color: #000000;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.games-filter-menu .filter-btn.active {
+    background: #060b30;
+    color: #fff;
+    border-color: #060b30;
+}
+
+.favourite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.recently-played-cards {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.view-all-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background: #eee;
+    cursor: pointer;
+}
+
+
+/*favourites text css*/
+.favourites-message {
+    display: none;            /* Hidden by default */
+    position: absolute;       /* So it can be positioned over the page */
+    top: 50%;                 /* Vertical center */
+    left: 50%;                /* Horizontal center */
+    transform: translate(-50%, -50%); /* Perfect centering */
+    font-size: 14px;          /* Adjust size */
+    color: #6666665b;           /* Your highlight color */
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/*recently played text heading effect*/
+
+.gradient-text {
+  font-size: 16px;
+  font-weight: bold;
+  /*background: linear-gradient(270deg, #060b30, #504a06, #ee6912, #085f14, #ff6bf0);
+  background-size: 1000% 1000%; /* make the gradient larger to animate 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientLoop 5s linear infinite;*/
+}
+/*
+@keyframes gradientLoop {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+  */
+
+
+  /*dropdown in bottom slider*/
+/* ================= Bottom Sheet Menu ================= */
+.bottom-sheet {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.bottom-sheet .sheet-content {
+  padding: 10px 15px;
+}
+
+.bottom-sheet ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bottom-sheet li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 5px 0;
+}
+
+/* Separator */
+.bottom-sheet .sheet-separator {
+  width: 100%;
+  height: 1px;
+  background-color: #6666661c;
+  margin: 5px 0;
+}
+
+/* ============ Dropdown Styling ============ */
+.bottom-sheet .dropdown {
+  display: block;
+  position: relative;
+}
+
+/* The clickable dropdown link */
+.bottom-sheet .dropdown > .dropbtn {
+  display: flex;               /* flex for text + arrow */
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 5px 0;
+  transition: padding 0.3s ease;
+}
+
+/* First icon + text alignment */
+.bottom-sheet .dropdown > .dropbtn i:first-child {
+  margin-right: 6px; /* space between icon and text */
+}
+
+.bottom-sheet .dropdown > .dropbtn span {
+  flex: 1; /* takes remaining space */
+  text-align: left; /* text stays left-aligned */
+}
+
+/* Dropdown content - hidden by default */
+.bottom-sheet .dropdown-content {
+  height: 0;                   /* start collapsed */
+  overflow: hidden;
+  transition: height 0.3s ease, padding 0.3s ease;
+  list-style: none;
+  padding-left: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+  background-color: #dbdadd21;
+}
+
+/* Dropdown links */
+.bottom-sheet .dropdown-content li a {
+  display: block;
+  padding: 3px 0;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+/* Optional hover effect */
+.bottom-sheet .dropdown-content li a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Extra space below header when dropdown open */
+.bottom-sheet .dropdown.open > .dropbtn {
+  padding-bottom: 15px; /* extra spacing to make clicking easier */
+}
+
+/* Arrow rotation */
+.bottom-sheet .dropdown .fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+
+.bottom-sheet .dropdown.open .fa-chevron-down {
+  transform: rotate(180deg); /* points up when open */
+}
+
+/* Optional: smaller icons like lock */
+.bottom-sheet li i.fa-lock {
+  font-size: 7px;
+  margin-left: 5px;
+}
+
+
+/*NOTIFICATION RED DOT CSS START
+
+.notifications {
+    position: relative;
+}
+
+
+.notifications::before {
+    content: "";
+    position: absolute;
+    top: 14px;         
+    left: 25px;        
+    width: 4px;        
+    height: 4px;
+    background: red;
+    border-radius: 50%;
+}
+NOTIFICATION RED DOT CSS END*/
+
+.notification-link {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-dot {
+  position: absolute;
+  top: -4px;   /* adjust vertically */
+  right: 10px; /* adjust horizontally */
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  border: 2px solid white; /* clean border around dot */
+}
+

@@ -1,0 +1,431 @@
+    // Function to disable various browser functions
+        function disableBrowserFunctions() {
+            // 1. Disable Right Click (Context Menu)
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                console.log('Right-click (context menu) is disabled.');
+            });
+
+            // 2. Disable Copy/Cut/Paste
+            const disableHandler = (e) => {
+                e.preventDefault();
+                console.log(`Action disabled: ${e.type}`);
+            };
+
+            document.addEventListener('copy', disableHandler);
+            document.addEventListener('cut', disableHandler);
+            document.addEventListener('paste', disableHandler);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            disableBrowserFunctions();
+
+            const donutPageLink = document.getElementById('donut-page-link');
+            const searchIcon = document.querySelector('.search-icon');
+
+            // PC Search Elements
+            const searchInputWrapper = document.querySelector('.search-input-wrapper');
+            const searchInput = document.querySelector('.search-input');
+            const searchCloseButton = document.querySelector('.search-close-button');
+            const searchInnerIcon = document.querySelector('.search-inner-icon');
+
+            // Mobile Search Elements
+            const mobileSearchBar = document.getElementById('mobile-search-bar');
+            const mobileSearchContent = document.querySelector('.mobile-search-content');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            const mobileSearchInnerIcon = document.getElementById('mobile-search-inner-icon');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+
+            // NEW: Payment and Dropdown elements
+            const regionSelectButton = document.getElementById('region-select-button');
+            const regionOptionsList = document.getElementById('region-options');
+            const regionOptionButtons = regionOptionsList.querySelectorAll('li button');
+
+            const globalPayments = document.getElementById('global-payments');
+            const indianPayments = document.getElementById('indian-payments');
+            const paymentButtons = document.querySelectorAll('.payment-button');
+
+
+            const ORIGINAL_PLACEHOLDER = 'Search GameBin...';
+            const ERROR_MESSAGE = 'Please enter a search query!';
+            
+
+            // --- VIEW MANAGEMENT LOGIC ---
+
+            /**
+            * Switches the active page view and updates the navigation bar elements.
+            * @param {string} pageId - The ID of the page view to activate ('home-page' or 'donut-page-view').
+            */
+            const showPage = (pageId) => {
+                // 1. Close search bar before switching views
+                closeSearch();
+
+                const views = document.querySelectorAll('.page-view');
+                views.forEach(view => {
+                    view.classList.remove('active');
+                    if (view.id === pageId) {
+                        view.classList.add('active');
+                    }
+                });
+
+                const isDonutPage = pageId === 'donut-page-view';
+
+                // 2. Update Donut/Back Button text
+                donutPageLink.textContent = isDonutPage ? 'Back' : 'Buy me a Donut';
+
+                // 3. Update Search Icon visibility (and PC wrapper state)
+                searchIcon.style.display = isDonutPage ? 'none' : 'block';
+                if (isDonutPage) {
+                    // Ensure the sliding PC search wrapper is closed/hidden too
+                    searchInputWrapper.classList.remove('active');
+                    // NEW: Ensure initial region is set when entering the page
+                    switchRegion('global', true); // Use true for initial load
+                }
+            };
+
+            // --- NEW: REGION AND PAYMENT LOGIC ---
+
+            /**
+            * Toggles the visibility of the region selection dropdown.
+            * @param {boolean} [open] - Explicitly set state (true/false) or toggle if undefined.
+            */
+            const toggleDropdown = (open) => {
+                const isCurrentlyOpen = regionOptionsList.classList.contains('visible');
+                if (open === undefined) {
+                    open = !isCurrentlyOpen;
+                }
+
+                regionOptionsList.classList.toggle('visible', open);
+                regionSelectButton.classList.toggle('open', open);
+                regionSelectButton.setAttribute('aria-expanded', open);
+            };
+
+            /**
+            * Handles the UI switch between different donation regions/currencies.
+            * @param {string} region - 'global' or 'india'.
+            * @param {boolean} [initialLoad=false] - True if called during page initialization.
+            */
+            const switchRegion = (region, initialLoad = false) => {
+                // 1. Update active state on dropdown options and the main button text
+                regionOptionButtons.forEach(btn => {
+                    btn.classList.remove('active-region');
+                    if (btn.dataset.region === region) {
+                        btn.classList.add('active-region');
+
+                        // Update the main button text (unless it's just the initial state setup)
+                        const regionText = region.charAt(0).toUpperCase() + region.slice(1);
+                        const currency = region === 'global' ? 'USD' : 'INR';
+                        regionSelectButton.innerHTML = `Select Region: ${regionText} 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+                    }
+                });
+
+                // 2. Update payment container visibility
+                if (region === 'global') {
+                    globalPayments.classList.add('active');
+                    indianPayments.classList.remove('active');
+                } else if (region === 'india') {
+                    indianPayments.classList.add('active');
+                    globalPayments.classList.remove('active');
+                }
+
+                // 3. Hide the dropdown after selection (unless it's the initial load)
+                if (!initialLoad) {
+                    toggleDropdown(false);
+                }
+            };
+
+            // Toggle dropdown on button click
+            regionSelectButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the document listener from immediately closing it
+                toggleDropdown();
+            });
+
+            // Select region from dropdown list
+            regionOptionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const region = e.currentTarget.dataset.region;
+                    switchRegion(region);
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                // Only close if the target is NOT the button or part of the dropdown list
+                if (!regionSelectButton.contains(e.target) && !regionOptionsList.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Payment Button Listeners (handles redirection)
+            paymentButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const link = e.currentTarget.dataset.link;
+                    // Placeholder for actual redirection logic (simulated link click)
+                    window.location.href = link;
+                    console.log(`Redirecting to payment link: ${link}`);
+                });
+            });
+
+            // --- END NEW LOGIC ---
+
+            // --- SEARCH LOGIC (Kept as is) ---
+
+            // Function to handle opening the correct search bar (PC or Mobile)
+            const openSearch = () => {
+                const isDesktop = window.innerWidth > 768;
+                if (isDesktop) {
+                    searchInputWrapper.classList.add('active');
+                    searchInput.focus();
+                } else {
+                    mobileSearchBar.classList.add('active');
+                    mobileSearchInput.focus();
+                }
+            };
+
+            // Function to handle closing the correct search bar (PC or Mobile)
+            const closeSearch = () => {
+                const isDesktop = window.innerWidth > 768;
+                if (isDesktop) {
+                    searchInputWrapper.classList.remove('active');
+                    searchInput.value = ''; // Clear PC search
+                } else {
+                    mobileSearchBar.classList.remove('active');
+                    mobileSearchInput.value = ''; // Clear Mobile search
+                }
+                // Only attempt to focus if the icon is currently visible
+                if (searchIcon.style.display !== 'none') {
+                    searchIcon.focus();
+                }
+            };
+
+            // Unified search validation and execution function
+            const performSearch = (inputElement) => {
+                const isMobile = window.innerWidth <= 768;
+                const searchTerm = inputElement.value.trim();
+
+                // Determine the wrapper/container element to apply the visual error state
+                const wrapperElement = isMobile ? mobileSearchContent : searchInputWrapper;
+
+                if (searchTerm === '') {
+                    // 1. Add error class (border color & shake animation)
+                    wrapperElement.classList.add('error-state');
+
+                    // 2. Change input placeholder
+                    inputElement.placeholder = ERROR_MESSAGE;
+
+                    // 3. Set a timeout to clear the error state and restore placeholder
+                    setTimeout(() => {
+                        wrapperElement.classList.remove('error-state');
+                        inputElement.placeholder = ORIGINAL_PLACEHOLDER;
+                    }, 800);
+
+                } else {
+                    console.log(`Searching for: ${searchTerm}`);
+                    // Successful search logic can go here (e.g., submitting a form, fetching data)
+                }
+            };
+
+            // --- Event Listeners (Kept as is) ---
+
+            // Dynamic Donut/Back Button Listener
+            donutPageLink.addEventListener('click', () => {
+                if (donutPageLink.textContent === 'Back') {
+                    showPage('home-page');
+                } else {
+                    showPage('donut-page-view');
+                }
+            });
+
+            // Search Toggle
+            searchIcon.addEventListener('click', openSearch);
+
+            // PC Search Listeners
+            searchInnerIcon.addEventListener('click', () => performSearch(searchInput));
+            searchCloseButton.addEventListener('click', closeSearch);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch(searchInput);
+                }
+            });
+
+            // Mobile Search Listeners
+            mobileSearchInnerIcon.addEventListener('click', () => performSearch(mobileSearchInput));
+            mobileSearchCloseButton.addEventListener('click', closeSearch);
+            mobileSearchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch(mobileSearchInput);
+                }
+            });
+
+            // Global Click Listener to close search on outside click (PC AND Mobile)
+            document.addEventListener('click', (e) => {
+                // If search icon is hidden (on Donut page), don't run outside click logic for search
+                if (searchIcon.style.display === 'none') return;
+
+                const isDesktop = window.innerWidth > 768;
+                const target = e.target;
+
+                // 1. Desktop Logic: PC search is active
+                if (isDesktop && searchInputWrapper.classList.contains('active')) {
+
+                    const isClickInsidePcWrapper = searchInputWrapper.contains(target);
+                    const isClickOnToggleIcon = searchIcon.contains(target);
+
+                    // If click is outside the sliding bar AND not on the toggle button, close it
+                    if (!isClickInsidePcWrapper && !isClickOnToggleIcon) {
+                        closeSearch();
+                    }
+                }
+                // 2. Mobile Logic: Mobile search is active
+                else if (!isDesktop && mobileSearchBar.classList.contains('active')) {
+                    const isClickInsideMobileBar = mobileSearchBar.contains(target);
+                    const isClickOnToggleIcon = searchIcon.contains(target);
+
+                    // If click is outside the mobile search bar AND not on the toggle button, close it
+                    if (!isClickInsideMobileBar && !isClickOnToggleIcon) {
+                        closeSearch();
+                    }
+                }
+            });
+        });
+
+
+        // Disable right-click on all ad elements- aD1 
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoAds = document.querySelectorAll('.video-ad-card');
+            const imageAds = document.querySelectorAll('.image-ad-card');
+
+            [...videoAds, ...imageAds].forEach(ad => {
+                ad.addEventListener('contextmenu', e => e.preventDefault());
+                ad.addEventListener('touchstart', function (e) {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Disable right-click and multitouch on ads
+            const videoAds = document.querySelectorAll('.video-ad-card');
+            const imageAds = document.querySelectorAll('.image-ad-card');
+
+            [...videoAds, ...imageAds].forEach(ad => {
+                ad.addEventListener('contextmenu', e => e.preventDefault());
+                ad.addEventListener('touchstart', function (e) {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Auto-scroll function
+            function autoScroll(containerSelector, intervalTime) {
+                const container = document.querySelector(containerSelector);
+                if (!container) return; // skip if container doesn't exist
+
+                const items = container.children;
+                let index = 0;
+
+                setInterval(() => {
+                    index++;
+                    if (index >= items.length) index = 0; // loop back to first
+                    const scrollLeft = items[index].offsetLeft - container.offsetLeft;
+                    container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                }, intervalTime);
+            }
+
+            // Video ads: scroll every 10 seconds
+            autoScroll('.video-ads-container', 10000);
+
+            // Image ads: scroll every 2 seconds (uncomment when images are active)
+            // autoScroll('.image-ads-container', 2000);
+        });
+
+        //end of video ad
+
+        //Bottom NAV Script Start
+        const moreBtn = document.getElementById("moreBtn");
+        const bottomSheet = document.getElementById("bottomSheet");
+
+        moreBtn.addEventListener("click", () => {
+            bottomSheet.classList.toggle("active");
+        });
+
+        // Close sheet when clicked outside
+        window.addEventListener("click", (e) => {
+            if (bottomSheet.classList.contains("active") && !bottomSheet.contains(e.target) && !moreBtn.contains(e.target)) {
+                bottomSheet.classList.remove("active");
+            }
+        });
+
+        document.getElementById('share-btn').addEventListener('click', function () {
+            const linkToCopy = "https://www.uperbit.com"; // 👈 Your link
+
+            // Try modern API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(linkToCopy)
+                    .then(showPopup)
+                    .catch(() => fallbackCopy(linkToCopy));
+            } else {
+                // Fallback for HTTP / local files
+                fallbackCopy(linkToCopy);
+            }
+        });
+
+        // Fallback copy using textarea (works anywhere)
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand("copy");
+                showPopup();
+            } catch (err) {
+                console.error("Fallback copy failed:", err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Popup function
+        function showPopup() {
+            const popup = document.createElement('div');
+            popup.textContent = "Link copied, share with your friends.";
+            popup.style.position = 'fixed';
+            popup.style.bottom = '80px';
+            popup.style.left = '50%';
+            popup.style.transform = 'translateX(-50%)';
+            popup.style.background = '#060b30';
+            popup.style.color = '#fff';
+            popup.style.padding = '10px 20px';
+            popup.style.borderRadius = '30px';
+            popup.style.fontFamily = 'sans-serif';
+            popup.style.fontSize = '14px';
+            popup.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+            popup.style.opacity = '0';
+            popup.style.transition = 'opacity 0.3s ease';
+            document.body.appendChild(popup);
+
+            // Fade in
+            requestAnimationFrame(() => popup.style.opacity = '1');
+
+            // Remove after 1 second
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                setTimeout(() => popup.remove(), 300);
+            }, 1000);
+        }
+
+        //Bottom Nav end
+
+//Search actually

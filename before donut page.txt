@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Updated viewport meta tag to restrict scaling/zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
+    <title>GameBin Nav Bar</title>
+    <style>
+        /* General Reset and Base Styles */
+        /* Disable pull-to-refresh and elastic scrolling for all elements */
+        html, body {
+            overscroll-behavior: none;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7; /* Light background for body */
+            color: #333;
+            /* Disable text selection for copy/cut/paste prevention */
+            user-select: none; 
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE/Edge */
+            /* Disable the mobile tap highlight color/box */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Focus Outline Removal --- */
+        .search-icon:focus,
+        .search-inner-icon:focus,
+        .search-close-button:focus,
+        .donut-button:focus,
+        button:focus,
+        .search-input:focus,
+        #mobile-search-input:focus {
+            outline: none;
+            box-shadow: none; 
+        }
+
+        /* Navbar Container - White with Shadow */
+        .navbar {
+            background-color: #fff; /* White Background */
+            color: #333; /* Dark text for contrast */
+            display: flex;
+            justify-content: space-between; /* Space out the brand and actions */
+            align-items: center;
+            /* UPDATED: Increased padding to 30px on left/right (from 20px) */
+            padding: 0 30px; 
+            height: 60px;
+            /* Subtle Black Shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+            position: fixed; /* Fixed position */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100; /* Ensure navbar is above content */
+        }
+
+        .navbar-brand {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #000000;
+            display: flex; 
+            align-items: center; 
+            cursor: default; /* Logo is not clickable */
+        }
+        
+        /* Container for Action Buttons (Search, Donut) */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+        }
+
+        /* --- PC Search Input Wrapper Styling --- */
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            height: 35px; /* Fixed height for consistent alignment */
+            padding-right: 5px; /* Space for the close button */
+
+            /* Animation properties */
+            transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-right 0.3s ease-in-out, border-color 0.1s ease-in-out;
+            
+            /* Initial Hidden State (for smooth transition) */
+            width: 0;
+            opacity: 0;
+            pointer-events: none; /* Make it unclickable when hidden */
+            overflow: hidden; /* Hide contents during transition */
+            margin-right: -10px; 
+        }
+        
+        /* SHAKE ANIMATION KEYFRAMES */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        /* ERROR STATE FOR PC WRAPPER */
+        .search-input-wrapper.error-state {
+            border-color: #f00; /* Red border */
+            animation: shake 0.4s ease-in-out; /* Apply shake */
+        }
+
+
+        /* Search Input Field inside the wrapper */
+        .search-input {
+            border: none;
+            padding: 0 5px; 
+            background-color: transparent;
+            color: #333;
+            flex-grow: 1; /* Input takes up available space */
+            height: 100%;
+        }
+
+        /* Inner Search Icon Button */
+        .search-inner-icon {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1; 
+        }
+
+        /* Search Close Button inside the wrapper */
+        .search-close-button {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+        
+        /* Search Toggle Icon Button (Visible by default) */
+        .search-icon {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.2s;
+            line-height: 1;
+            z-index: 10; 
+        }
+
+        .search-icon:hover {
+            color: #333;
+        }
+
+        /* Donut Button Styling (Original Dark Blue) */
+        .donut-button {
+            background-color: #060b30; /* Original Dark Blue */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, width 0.3s;
+            white-space: nowrap; 
+            margin-right: 29px;
+        }
+
+        .donut-button:hover {
+            transform: translateY(-1px);
+            background-color: #1a204d; /* Slightly lighter dark blue on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.35);
+        }
+        
+        /* --- Mobile Search Bar Styling --- */
+        #mobile-search-bar {
+            position: fixed; /* Fixed position so it stays visible even when scrolling */
+            top: 60px; /* Directly below the 60px height navbar */
+            width: 100%; /* Full width container for the fixed bar */
+            z-index: 998; /* Below the main navbar */
+            
+            /* Animation for sliding down */
+            transform: translateY(-100%); 
+            opacity: 0;
+            pointer-events: none; /* Make it unclickable when hidden */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            padding: 10px 0; /* Vertical padding only for the container */
+        }
+
+        #mobile-search-bar.active {
+            transform: translateY(0); /* Slide down into view */
+            opacity: 1;
+            pointer-events: auto; /* Enable clicks when active */
+        }
+
+        /* Inner container to control mobile search width and centering */
+        .mobile-search-content {
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto; /* Center the content */
+            background-color: #f0f0f0; /* Light gray background */
+            padding: 10px 15px;
+            /* Border and Box Shadow are now animated */
+            border: 1px solid #f0f0f0; 
+            box-shadow: 0 0px 8px rgba(0, 0, 0, 0.15); 
+            border-radius: 8px; /* Rounded corners */
+            
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+        }
+        
+        /* ERROR STATE FOR MOBILE WRAPPER */
+        .mobile-search-content.error-state {
+            border-color: #f00; /* Red border */
+            box-shadow: 0 0px 8px rgba(255, 0, 0, 0.5); /* Enhance error state with glow */
+            animation: shake 0.4s ease-in-out; /* Apply shake */
+        }
+
+        #mobile-search-bar #mobile-search-input {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            font-size: 1rem;
+            height: 40px;
+        }
+
+        #mobile-search-bar button {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 5px;
+            height: 40px;
+        }
+        
+        /* --- MAIN CONTENT & VIEW MANAGEMENT --- */
+        .main-content {
+            padding-top: 60px; /* Space for the fixed navbar */
+            min-height: 100vh;
+            background-color: #f7f7f7;
+        }
+
+        .page-view {
+            display: none; /* Hidden by default */
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(1px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DONUT PAGE STYLING --- */
+        .donut-page {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            /* Ensure page has minimum height even with minimal content */
+            min-height: 300px; 
+        }
+
+        /* --- DESKTOP-SPECIFIC MEDIA QUERIES --- */
+        @media (min-width: 769px) {
+            /* 1. Show PC Wrapper */
+            .search-input-wrapper.active {
+                width: 250px; /* Visible width on desktop */
+                opacity: 1;
+                pointer-events: auto; /* Make it clickable when active */
+                margin-right: 10px; /* Add slight space between wrapper and donut button */
+            }
+
+            /* 2. Hide main toggle icon when PC search wrapper is active */
+            .search-input-wrapper.active ~ .search-icon {
+                display: none;
+            }
+
+            /* 3. Hide mobile search bar completely on desktop */
+            #mobile-search-bar {
+                display: none !important;
+            }
+        }
+
+        /* --- Mobile View Adjustments (768px and below) --- */
+        @media (max-width: 768px) {
+            .navbar {
+                /* UPDATED: Increased mobile padding to 20px (from 15px) */
+                padding: 0 20px;
+            }
+            
+            /* Ensure PC search input wrapper is fully disabled/hidden on mobile */
+            .search-input-wrapper {
+                display: none;
+            }
+
+            /* Ensure mobile search bar is structured for mobile */
+            #mobile-search-bar {
+                display: block; /* Use block to contain the centered child */
+            }
+
+            /* Reduce button padding on mobile for space */
+            .donut-button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .donut-page {
+                margin: 20px auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <!-- Logo/Brand - No click listener, cursor: default -->
+        <div class="navbar-brand">
+            GameBin
+        </div>
+        
+        <!-- Action Items (Search, Close, Donut Button) -->
+        <div class="navbar-actions">
+            <!-- 1. PC Search Wrapper (Handles sliding, contains all search elements) -->
+            <div class="search-input-wrapper">
+                
+                <!-- Input Field (Left) -->
+                <input type="text" class="search-input" placeholder="Search GameBin...">
+                
+                <!-- Inner Search Icon (Right) -->
+                <button class="search-inner-icon" aria-label="Perform Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                
+                <!-- Close Button (Far Right) -->
+                <button class="search-close-button" aria-label="Close Search">
+                    <!-- X Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <!-- 2. Original Search Icon (Toggle Button) -->
+            <button class="search-icon" aria-label="Search">
+                <!-- SVG Search Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            
+            <!-- 3. Donut Button / Back Button -->
+            <button class="donut-button" id="donut-page-link">
+                Buy me a Donut
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Search Bar Container (Appears below Navbar) -->
+    <div id="mobile-search-bar">
+        <div class="mobile-search-content">
+            <!-- Input Field (Left) -->
+            <input type="text" id="mobile-search-input" placeholder="Search GameBin...">
+            
+            <!-- Inner Search Icon (Right of Input) -->
+            <button id="mobile-search-inner-icon" aria-label="Perform Search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            
+            <!-- Close Button (Far Right) -->
+            <button id="mobile-search-close-button" aria-label="Close Search">
+                <!-- X Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA - Holds different views -->
+    <div class="main-content">
+        
+        <!-- HOME PAGE VIEW -->
+        <div id="home-page" class="page-view active">
+            <div style="padding: 20px; text-align: center;">
+                <h1 style="font-weight: 300;">Welcome to GameBin!</h1>
+                <p>The "Buy me a Donut" button now has a little more space from the right edge.</p>
+                <p>Click **Buy me a Donut** to see the new **Back** button appear!</p>
+            </div>
+        </div>
+
+        <!-- DONUT PAGE VIEW - Simplified Content -->
+        <div id="donut-page-view" class="page-view">
+            <!--<div class="donut-page">-->
+                <div style="text-align: center; padding-top: 0px;"></div>
+                <h1 style="color: #060b30; font-size: 2.5rem; margin-top: 50px;">Hey there! 👋</h1>
+                <p style="font-size: 1.2rem; margin: 20px 0;">Thanks for playing our games! We keep everything free because we just love seeing people have fun.</p>
+                
+                <h3 style="margin-top: 40px; font-weight: 600;">Enjoyed your time here?</h3>
+                <p style="font-size: 1rem; margin: 10px 0 30px 0;">Making these games is honestly just a passion project. Late nights, lots of coffee (and donuts), and a whole lot of trial and error go into keeping things running smoothly.
+                If you've had some good laughs or killed some time in the best way possible, and you're feeling generous, we'd absolutely love it if you'd consider buying us a donut. Or a coffee. Or honestly, whatever fuels your own creative projects!</p>
+                <p style="font-size: 1rem; margin-bottom: 30px; font-style: italic; font-weight:bold;">Every little bit helps us keep the lights on and the games running. You're awesome for even reading this far!</p>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to disable various browser functions
+        function disableBrowserFunctions() {
+            // 1. Disable Right Click (Context Menu)
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                console.log('Right-click (context menu) is disabled.');
+            });
+
+            // 2. Disable Copy/Cut/Paste
+            const disableHandler = (e) => {
+                e.preventDefault();
+                console.log(`Action disabled: ${e.type}`);
+            };
+
+            document.addEventListener('copy', disableHandler);
+            document.addEventListener('cut', disableHandler);
+            document.addEventListener('paste', disableHandler);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            disableBrowserFunctions(); 
+            
+            const donutPageLink = document.getElementById('donut-page-link');
+            const searchIcon = document.querySelector('.search-icon');
+            
+            // PC Search Elements
+            const searchInputWrapper = document.querySelector('.search-input-wrapper');
+            const searchInput = document.querySelector('.search-input');
+            const searchCloseButton = document.querySelector('.search-close-button');
+            const searchInnerIcon = document.querySelector('.search-inner-icon');
+
+            // Mobile Search Elements
+            const mobileSearchBar = document.getElementById('mobile-search-bar');
+            const mobileSearchContent = document.querySelector('.mobile-search-content');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            const mobileSearchInnerIcon = document.getElementById('mobile-search-inner-icon');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+
+            const ORIGINAL_PLACEHOLDER = 'Search GameBin...';
+            const ERROR_MESSAGE = 'Please enter a search query!';
+
+            // --- VIEW MANAGEMENT LOGIC ---
+
+            /**
+             * Switches the active page view and updates the navigation bar elements.
+             * @param {string} pageId - The ID of the page view to activate ('home-page' or 'donut-page-view').
+             */
+            const showPage = (pageId) => {
+                // 1. Close search bar before switching views
+                closeSearch(); 
+                
+                const views = document.querySelectorAll('.page-view');
+                views.forEach(view => {
+                    view.classList.remove('active');
+                    if (view.id === pageId) {
+                        view.classList.add('active');
+                    }
+                });
+
+                const isDonutPage = pageId === 'donut-page-view';
+
+                // 2. Update Donut/Back Button text
+                donutPageLink.textContent = isDonutPage ? 'Back' : 'Buy me a Donut';
+
+                // 3. Update Search Icon visibility (and PC wrapper state)
+                searchIcon.style.display = isDonutPage ? 'none' : 'block';
+                if (isDonutPage) {
+                    // Ensure the sliding PC search wrapper is closed/hidden too
+                    searchInputWrapper.classList.remove('active');
+                }
+            };
+
+            // --- SEARCH LOGIC ---
+
+            // Function to handle opening the correct search bar (PC or Mobile)
+            const openSearch = () => {
+                const isDesktop = window.innerWidth > 768;
+                if (isDesktop) {
+                    searchInputWrapper.classList.add('active');
+                    searchInput.focus();
+                } else {
+                    mobileSearchBar.classList.add('active');
+                    mobileSearchInput.focus();
+                }
+            };
+
+            // Function to handle closing the correct search bar (PC or Mobile)
+            const closeSearch = () => {
+                const isDesktop = window.innerWidth > 768;
+                if (isDesktop) {
+                    searchInputWrapper.classList.remove('active');
+                    searchInput.value = ''; // Clear PC search
+                } else {
+                    mobileSearchBar.classList.remove('active');
+                    mobileSearchInput.value = ''; // Clear Mobile search
+                }
+                // Only attempt to focus if the icon is currently visible
+                if(searchIcon.style.display !== 'none') {
+                    searchIcon.focus(); 
+                }
+            };
+            
+            // Unified search validation and execution function
+            const performSearch = (inputElement) => {
+                const isMobile = window.innerWidth <= 768;
+                const searchTerm = inputElement.value.trim();
+                
+                // Determine the wrapper/container element to apply the visual error state
+                const wrapperElement = isMobile ? mobileSearchContent : searchInputWrapper;
+
+                if (searchTerm === '') {
+                    // 1. Add error class (border color & shake animation)
+                    wrapperElement.classList.add('error-state');
+                    
+                    // 2. Change input placeholder
+                    inputElement.placeholder = ERROR_MESSAGE;
+
+                    // 3. Set a timeout to clear the error state and restore placeholder
+                    setTimeout(() => {
+                        wrapperElement.classList.remove('error-state');
+                        inputElement.placeholder = ORIGINAL_PLACEHOLDER;
+                    }, 800); 
+
+                } else {
+                    console.log(`Searching for: ${searchTerm}`);
+                    // Successful search logic can go here (e.g., submitting a form, fetching data)
+                }
+            };
+
+            // --- Event Listeners ---
+            
+            // Dynamic Donut/Back Button Listener
+            donutPageLink.addEventListener('click', () => {
+                if (donutPageLink.textContent === 'Back') {
+                    showPage('home-page');
+                } else {
+                    showPage('donut-page-view');
+                }
+            });
+            
+            // Search Toggle
+            searchIcon.addEventListener('click', openSearch);
+            
+            // PC Search Listeners
+            searchInnerIcon.addEventListener('click', () => performSearch(searchInput));
+            searchCloseButton.addEventListener('click', closeSearch);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    performSearch(searchInput);
+                }
+            });
+            
+            // Mobile Search Listeners
+            mobileSearchInnerIcon.addEventListener('click', () => performSearch(mobileSearchInput));
+            mobileSearchCloseButton.addEventListener('click', closeSearch);
+            mobileSearchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    performSearch(mobileSearchInput);
+                }
+            });
+
+            // Global Click Listener to close search on outside click (PC AND Mobile)
+            document.addEventListener('click', (e) => {
+                // If search icon is hidden (on Donut page), don't run outside click logic for search
+                if (searchIcon.style.display === 'none') return;
+                
+                const isDesktop = window.innerWidth > 768;
+                const target = e.target;
+                
+                // 1. Desktop Logic: PC search is active
+                if (isDesktop && searchInputWrapper.classList.contains('active')) {
+                    
+                    const isClickInsidePcWrapper = searchInputWrapper.contains(target);
+                    const isClickOnToggleIcon = searchIcon.contains(target);
+                    
+                    // If click is outside the sliding bar AND not on the toggle button, close it
+                    if (!isClickInsidePcWrapper && !isClickOnToggleIcon) {
+                        closeSearch();
+                    }
+                } 
+                // 2. Mobile Logic: Mobile search is active
+                else if (!isDesktop && mobileSearchBar.classList.contains('active')) {
+                    const isClickInsideMobileBar = mobileSearchBar.contains(target);
+                    const isClickOnToggleIcon = searchIcon.contains(target);
+
+                    // If click is outside the mobile search bar AND not on the toggle button, close it
+                    if (!isClickInsideMobileBar && !isClickOnToggleIcon) {
+                        closeSearch();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

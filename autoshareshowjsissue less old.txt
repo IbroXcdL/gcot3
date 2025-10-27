@@ -1,0 +1,9 @@
+document.getElementById('share-btn').addEventListener('click', function () {
+    const linkToCopy = "https://www.uperbit.com";
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(linkToCopy)
+            .then(showPopup)
+            .catch(() => fallbackCopy(linkToCopy));
+    } else fallbackCopy(linkToCopy);
+});

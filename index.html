@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Updated viewport meta tag to restrict scaling/zooming -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
+    <title>GameBin | Play games for FREE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!--PWA-->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+
+    <!--ios fixes for pwa-->
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GameBin">
+    <link rel="apple-touch-icon" href="/Logo.png">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <!-- Logo/Brand - No click listener, cursor: default -->
+
+        <!--TEXT LOGO START-->
+        <!--<div class="navbar-brand">
+            GameBin
+        </div>-->
+        <!--TEXT LOGO END-->
+
+        <!--IMAGE LOGO STRAT-->
+        <div class="navbar-brand" style="cursor: default; display: flex; align-items: center;">
+            <img src="/Logo.png" alt="GameBin Logo" style="height: 40px; width: auto; display: block;">
+        </div>
+        <!--IMAGE LOGO END-->
+
+        <!-- Action Items (Search, Close, Donut Button) -->
+        <div class="navbar-actions">
+            <!-- 1. PC Search Wrapper (Handles sliding, contains all search elements) -->
+            <div class="search-input-wrapper">
+
+                <!-- Input Field (Left) -->
+                <input type="text" class="search-input" placeholder="Search GameBin...">
+
+                <!-- Inner Search Icon (Right) -->
+                <button class="search-inner-icon" aria-label="Perform Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+
+                <!-- Close Button (Far Right) -->
+                <button class="search-close-button" aria-label="Close Search">
+                    <!-- X Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 2. Original Search Icon (Toggle Button) -->
+            <button class="search-icon" aria-label="Search">
+                <!-- SVG Search Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <!--Notification icon for notification page start-->
+            <a href="https://www.uperbit.com/" class="notification-link" id="notifLink" style="padding-right: 11px;">
+              <i class="fa fa-bell notificationsd" style="cursor:pointer; font-size: 19px;"></i>
+              <span class="notification-dot" id="notifDot" style="display: none;"></span>
+            </a>
+
+            <!--Notification icon for notification page end-->
+
+            <!-- 3. Donut Button / Back Button -->
+            <button class="donut-button" id="donut-page-link">
+                Buy me a Donut
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Search Bar Container (Appears below Navbar) -->
+    <div id="mobile-search-bar">
+        <div class="mobile-search-content">
+            <!-- Input Field (Left) -->
+            <input type="text" id="mobile-search-input" placeholder="Search GameBin...">
+
+            <!-- Inner Search Icon (Right of Input) -->
+            <button id="mobile-search-inner-icon" aria-label="Perform Search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+
+            <!-- Close Button (Far Right) -->
+            <button id="mobile-search-close-button" aria-label="Close Search">
+                <!-- X Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <!-- Start Of Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <a href="https://yourappstorelink.com" target="_blank" class="nav-link">
+                <i class="fa-solid fa-user"></i>
+                <span>Meet Me</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="https://yourappstorelink.com" target="_blank" class="nav-link">
+                <i class="fa fa-th" aria-hidden="true"></i>
+                <span>App Store</span>
+            </a>
+        </div>
+        <div class="nav-item" id="allgamebutton">
+            <i class="fa-solid fa-gamepad"></i>
+            <span>All Games</span>
+        </div>
+        <div class="nav-item" id="share-btn">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share</span>
+        </div>
+        <div class="nav-item" id="moreBtn">
+            <i class="fa-solid fa-ellipsis-h"></i>
+            <span>More</span>
+        </div>
+    </div>
+
+    <!-- BOTTOM Slide-up Menu -->
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="sheet-content">
+            <!--This is that line there for sliding down-->
+            <div style="background-color: #b6b6b644; height: 2.5px; width: 18%; margin: 0 auto;"></div>
+
+            <div class="sheet-handle"></div>
+            <ul>
+                <li style="text-decoration: none; color: #33333349;"><i class="fa fa-bullhorn"></i> Run Ads with Us<i
+                style="font-size:7px;" class="fa-solid fa-lock"></i></li>
+                <div class="sheet-separator"></div>
+                <li style="text-decoration: none; color: #33333349;"><i class="fas fa-upload"></i> Add Your Game<i
+                        style="font-size:7px;" class="fa-solid fa-lock"></i></li>
+                <div class="sheet-separator"></div>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa fa-lightbulb"></i> Suggest a Game / Feature</a></li>
+                <div class="sheet-separator"></div>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i class="fa fa-star"></i>
+                        Leave a Review</a></li>
+                <div class="sheet-separator"></div>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa fa-bug"></i> Bug Report</a></li>
+                <div class="sheet-separator"></div>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa fa-users"></i> Community</a></li>
+                <div class="sheet-separator"></div>
+                <!--THE ID IS FOR RED DOT IT ALSO HAS STYLE-->
+                <!--<li class="notifications"><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa fa-bell"></i> Notifications</a></li>
+                <div class="sheet-separator"></div>-->
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa fa-history"></i> Changelog</a></li>
+                <div class="sheet-separator"></div>
+                     <!-- Collapsible dropdown -->
+                <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">
+                <i class="fa fa-file-alt"></i> <span>User Agreement</span> <i class="fa fa-chevron-down"></i>
+                </a>
+                <ul class="dropdown-content">
+                 <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa-solid fa-file-contract"></i> Terms of Use</a></li>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                </ul>
+                </li>
+                <!-- Collapsible dropdownend end -->
+                <div class="sheet-separator"></div>
+
+                <!--<li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa-solid fa-file-contract"></i> Terms of Use</a></li>
+                <div class="sheet-separator"></div>
+                <li><a href="submit.html" style="text-decoration: none; color: inherit;"><i
+                            class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                <div class="sheet-separator"></div>-->
+            </ul>
+        </div>
+    </div>
+    <!-- End of Bottom Navigation Bar -->
+
+    <!-- MAIN (HOME PAGE) CONTENT AREA - Holds different views -->
+    <div class="main-content" style="width: 100%; overflow-x: hidden;">
+        <div id="home-page" class="page-view active">
+
+            <!--AD SECTION START 1-->
+
+            <!--VIDEO ADS SECTION START-->
+            <!--Some style for below: h2 (Actually h1) style="font-weight: 600; font-size: 25px; text-align: left; margin-left: 22px; padding-top: 20px;"-->
+            <!--<h2 class="gradient-text" style="padding-top: 20px;">Upcoming</h2>-->
+            <div class="video-ads-container"
+                style="display: flex; overflow-x: auto; gap: 0; padding: 0; margin: 0; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-top: 30px;">
+
+                <div class="video-ad-card"
+                    style="flex: 0 0 calc(100% - 5px); margin: 0 2.5px; scroll-snap-align: center; position: relative; border-radius: 15px; overflow: hidden;">
+                    <video class="ad-video" src="/V1.mp4" style="width: 100%; height: auto; display: block;" autoplay
+                        muted loop playsinline oncontextmenu="return false;"></video>
+                </div>
+
+                <div class="video-ad-card"
+                    style="flex: 0 0 calc(100% - 5px); margin: 0 2.5px; scroll-snap-align: center; position: relative; border-radius: 15px; overflow: hidden;">
+                    <video class="ad-video" src="/V2.mp4" style="width: 100%; height: auto; display: block;" autoplay
+                        muted loop playsinline oncontextmenu="return false;"></video>
+                </div>
+
+                <!-- Add more cards as needed -->
+            </div>
+
+            <div style="padding-top: 20px;">
+                <!--AD TEXT START-->
+                <p
+                    style="float: right; text-align: right; right: 0; margin-top: -20px; margin-right: 5px; color: rgba(105, 105, 105, 0.342); font-size: 7px;">
+                    <!--<i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 0px;"></i>-->
+                    <span style="border: 1px solid #49494928; border-radius: 4px; padding: 0px 4px;font-size: 8px;"><i class="fa-solid fa-circle-info" style="font-size: 5px; margin-right: 0px;"></i> Ad</span>
+                    <!--AD TEXT END-->
+                </p>
+            </div>
+            <!--VIDEO ADS SECTION END-->
+
+
+            <!--IMAGE ADS SECTION START (COMMENTED OUT)
+    <div class="image-ads-container" style="display: flex; overflow-x: auto; gap: 0; padding: 0; margin: 0; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+
+        <div class="image-ad-card" style="flex: 0 0 calc(100% - 40px); margin: 0 20px; scroll-snap-align: center; position: relative;">
+            <a href="https://example.com/image-ad1" target="_blank" style="display: block; position: relative;">
+                <img class="ad-image" src="https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=" alt="Ad 1"style="width: 100%; height: auto; border-radius: 15px; display: block; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); pointer-events: none; user-select: none;"oncontextmenu="return false;"draggable="false">
+            </a>
+        </div>
+
+        <div class="image-ad-card" style="flex: 0 0 calc(100% - 40px); margin: 0 20px; scroll-snap-align: center; position: relative;">
+            <a href="https://example.com/image-ad2" target="_blank" style="display: block; position: relative;">
+                <img class="ad-image" src="https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=" alt="Ad 2"style="width: 100%; height: auto; border-radius: 15px; display: block; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); pointer-events: none; user-select: none;"oncontextmenu="return false;"draggable="false">
+            </a>
+        </div
+
+        <div class="image-ad-card" style="flex: 0 0 calc(100% - 40px); margin: 0 20px; scroll-snap-align: center; position: relative;">
+            <a href="https://example.com/image-ad3" target="_blank" style="display: block; position: relative;">
+                <img class="ad-image" src="https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=" alt="Ad 3"style="width: 100%; height: auto; border-radius: 15px; display: block; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); pointer-events: none; user-select: none;"oncontextmenu="return false;"draggable="false">
+            </a>
+        </div>
+
+    </div>
+
+    IMAGE ADS SECTION END (COMMENTED OUT)-->
+
+                <!--AD Seperator start-->
+                <!--<div class="sheet-separator" style="width: 200%; margin-left: -19px; background-color:#47474725;"></div>-->
+                <!--AD Seperator End-->
+
+<!--AD SECTION END 1-->
+
+            <!--RECENTLY PLAYED STRAT-->
+            <div id="recently-played-section" class="recently-played" style="display:none;">
+               <h1 style="font-size: 15px; display: flex; justify-content: space-between; align-items: center; padding-right: 20px; margin-left: 8px;">
+                Recently Played
+                <span style="display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #333333ab">
+                    <i class="fa fa-arrows-alt-h"></i>
+                    Scroll
+                </span>
+                </h1>
+                <div class="recently-played-cards"></div>
+            </div>
+            <!--RECENTLY PLAYED END-->
+
+
+
+            <!-- Game Section 1 Start -->
+            <!--Game Section 1 Heading-->
+            <div style="padding: 20px; text-align: center;  padding-bottom: 0px; padding-top: 20px;">
+               <h1 style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; margin: 0 0 0 -12px;">
+            Top Picks
+            <span style="display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #333333ab">
+                <i class="fa fa-arrows-alt-h"></i>
+                Scroll
+            </span>
+            </h1>
+
+                <!--GAMES Div 1 START-->
+                <div
+                    style="display: flex; overflow-x: auto; gap: 6px; padding: 10px 0; margin-left:-33px; margin-right: -30px;">
+                    <!--Game Card 1-->
+                    <div class="game-card" data-game-id="fav-Snake-Classic"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://www.gamebin.online/snake%20classic%20image.png" alt="Game 1" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Snake Classic</p>
+                        <a href="https://www.uperbit.com/" class="play-now-btn play-btn" data-id="rp-Snake-Classic"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <!--Game Card 2-->
+                    <div class="game-card" data-game-id="fav-Buzzy-Bounce"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://www.gamebin.online/Buzzy%20Bounce%20Image.png" alt="Game 2" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Buzzy Bounce</p>
+                        <a href="https://www.gamebin.online/" class="play-now-btn play-btn" data-id="rp-Buzzy-Bounce"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 3--> 
+                    <div class="game-card" data-game-id="fav-Stellar-Defender"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/324058ff9_logo.png" alt="Game 3" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px; border-radius: 30px 30px 0 0;">
+                        <p style="font-size:14px; font-weight: bold;">Stellar Defender</p>
+                        <a href="https://www.gaamebin.online/" class="play-now-btn play-btn" data-id="rp-Stellar-Defender"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 4-->
+                    <div class="game-card" data-game-id="fav-Tic-Tac-Toe"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/TTTimg.png" alt="Game 4" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Tic-Tac-Toe</p>
+                        <a href="#game4" class="play-now-btn play-btn" data-id="rp-Tic-Tac-Toe"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px;margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 5-->
+                    <div class="game-card" data-game-id="fav-Classic-Chess"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/Chess.png" alt="Game 5" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Classic Chess</p>
+                        <a href="https://www.gaamebin.online/" class="play-now-btn play-btn" data-id="rp-Classic-Chess"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px;margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                </div>
+                <!--GAMES SECTION 1 END-->
+            </div>
+        </div>
+
+        <!-- HOME PAGE Game Cards Section 2-->
+        <div id="home-page" class="page-view active" style="padding-top: -0px; padding-bottom: 40px;">
+            <div style="padding: 20px; text-align: center; padding-top: -10px;">
+               <h1 style="font-weight: 600; font-size: 15px; text-align: left; margin-left: -5px; display: flex; justify-content: space-between; align-items: center;">
+  New Arrival
+  <span style="display: flex; flex-direction: column; align-items: center; font-size: 9px;color: #333333ab">
+    <i class="fa fa-arrows-alt-h"></i>
+    Scroll
+  </span>
+</h1>
+
+                <!--GAMES SECTION START-->
+                <div
+                    style="display: flex; overflow-x: auto; gap: 6px; padding: 10px 0; margin-left:-33px; margin-right: -30px;">
+                    <!--Game Card 1-->
+                    <div class="game-card" data-game-id="fav-Snake-Classic"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://www.gamebin.online/snake%20classic%20image.png" alt="Game 1" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Snake Classic</p>
+                        <a href="#game1" class="play-now-btn play-btn" data-id="rp-Snake-Classic"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <!--Game Card 2-->
+                    <div class="game-card" data-game-id="fav-Buzzy-Bounce"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://www.gamebin.online/Buzzy%20Bounce%20Image.png" alt="Game 2" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Buzzy Bounce</p>
+                        <a href="#game2" class="play-now-btn play-btn" data-id="rp-Buzzy-Bounce"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 3--> 
+                    <div class="game-card" data-game-id="fav-Stellar-Defender"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/324058ff9_logo.png" alt="Game 3" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px; border-radius: 30px 30px 0 0;">
+                        <p style="font-size:14px; font-weight: bold;">Stellar Defender</p>
+                        <a href="#game3" class="play-now-btn play-btn" data-id="rp-Stellar-Defender"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 4-->
+                    <div class="game-card" data-game-id="fav-Tic-Tac-Toe"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/TTTimg.png" alt="Game 4" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Tic-Tac-Toe</p>
+                        <a href="#game4" class="play-now-btn play-btn" data-id="rp-Tic-Tac-Toe"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px;margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                    <!--Game Card 5-->
+                    <div class="game-card" data-game-id="fav-Classic-Chess"
+                        style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;">
+                        <img src="https://games.gamebin.online/Chess.png" alt="Game 5" class="game-img"
+                            style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px;">
+                        <p style="font-size:14px; font-weight: bold;">Classic Chess</p>
+                        <a href="#game5" class="play-now-btn play-btn" data-id="rp-Classic-Chess"
+                            style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px;margin-bottom: 10px;">PlayNow</a>
+                        <!-- Favourite Heart Button -->
+                        <button class="favourite-btn">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        </div>
+                </div>
+                <!--GAMES SECTION 2 END-->
+                <footer class="app-footer">
+                <p id="app-version" style="font-size: 12px; opacity: 0.6;">Loading version...</p>
+                </footer>
+
+            </div>
+        </div>
+
+
+
+        <!--END OF HOME PAGE-->
+
+
+        <!--PAGE 2 START-->
+
+        <!-- BUY ME A DONUT PAGE START-->
+        <div id="donut-page-view" class="page-view">
+            <div class="donut-page-content">
+
+                <h1 style="color: #060b30; font-size: 22px; margin-top: 50px; text-align: left;">Hey there! <span style="filter: hue-rotate(670deg) saturate(7);">👋</span></h1>
+                <p style="font-size: 14px; margin: 20px 0px; text-align: justify;">Hey there! If you've been enjoying the games and they've brought a smile to your face, consider fueling the next round of development with a donut or coffee or pizza or whatever you like!</p>
+
+                <!-- NEW: Single Dropdown Region Selector -->
+                <div id="region-dropdown-container">
+                    <button id="region-select-button" aria-expanded="false" aria-controls="region-options">Select
+                        Region: Global
+                        <!-- SVG for Down Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <ul id="region-options" class="dropdown-menu" role="menu">
+                        <li role="menuitem"><button data-region="global">Global (USD)</button></li>
+                        <li role="menuitem"><button data-region="india">India (INR)</button></li>
+                    </ul>
+                </div>
+
+                <!-- Global Payment Options (Default Active) -->
+                <div id="global-payments" class="payment-options active">
+                    <h4 class="payment-header">Global Supporters (USD)</h4>
+                    <div class="button-group">
+                        <!-- Placeholder data-link attribute for redirection -->
+                        <button class="payment-button" data-link="https://global.donate/5">$5 Donut</button> 
+                        <button class="payment-button" data-link="https://global.donate/10">$10 Coffee</button>
+                        <button class="payment-button" data-link="https://global.donate/15">$15 Pizza</button>
+                        <button class="payment-button custom-button"data-link="https://global.donate/custom">Custom</button>
+                    </div>
+                </div>
+
+                <!-- Indian Payment Options (Initially Hidden) -->
+                <div id="indian-payments" class="payment-options">
+                    <h4 class="payment-header">Indian Supporters (INR)</h4>
+                    <div class="button-group">
+                        <!-- Placeholder data-link attribute for redirection -->
+                        <button class="payment-button" data-link="https://in.donate/100">₹100 Donut</button>
+                        <button class="payment-button" data-link="https://in.donate/200">₹200 Coffee</button>
+                        <button class="payment-button" data-link="https://in.donate/500">₹500 Pizza</button>
+                        <button class="payment-button custom-button" data-link="https://in.donate/custom">Custom</button>
+                    </div>
+                </div>
+
+
+            <h3 style="color: #060b30; font-size: 17px; margin-top: 50px; text-align: left;">Enjoyed your time here?</h3>
+               
+
+                <div style="max-width: 700px; margin: 0 auto; padding: 12 15px; text-align: left;">
+                <p style="font-size: 14px; margin: 20px 0px; text-align: justify;">Making these games is honestly just a passion project. Late nights, lots of coffee (and donuts), and a whole lot of trial and error go into keeping things running smoothly. If you've had some good laughs or killed some time in the best way possible, and you're feeling generous, we'd absolutely love it if you'd consider buying us a donut. Or a coffee. Or honestly, whatever fuels
+                your own creative projects!</p>
+
+                    <p class="donut-page-bottom"
+                        style="font-size: 15px; font-style: italic; font-weight:bold; color: #ee6912; text-align: center;">
+                        Thanks for playing, and thanks for being here. You're awesome for even reading this far!
+                    </p>
+                    <!--<div style="margin-bottom: -5px;"></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--ALL GAMES PAGE START-->
+    <div id="allgame-page-view" class="page-view">
+        <div class="allgame-page-content">
+            <div class="games-filter-menu" style="margin-top: -760px;">
+                <button class="filter-btn" data-filter="all">All Games</button>
+                <button class="filter-btn" data-filter="recently">Recently Played</button>
+                <button class="filter-btn" data-filter="coming">Coming Soon</button>
+                <button class="filter-btn" data-filter="favourites">Favourites <i
+                        class="fa-regular fa-heart"></i></button>
+
+            </div>
+            <!--favourtites text start-->
+            <div id="favourites-message" class="favourites-message"></div>
+            <!--favourtites text end-->
+
+
+            <div class="game-grid" style="margin-left: -20px;margin-right: -17px; ">
+                <!-- Game Card 1 -->
+                <div class="game-card" data-game-id="fav-Snake-Classic">
+                    <img src="https://www.gamebin.online/snake%20classic%20image.png" alt="Snake Classic">
+                    <p>Snake Classic</p>
+                    <a href="https://www.uperbit.com/" class="play-now-btn play-btn" data-id="rp-Snake-Classic">PlayNow</a>
+                    <!-- Favourite Heart Button -->
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+                 <!-- Game Card 2 -->
+                <div class="game-card" data-game-id="fav-Buzzy-Bounce">
+                    <img src="https://www.gamebin.online/Buzzy%20Bounce%20Image.png" alt="Game 2">
+                    <p>Buzzy Bounce</p>
+                    <a href="https://www.gamebin.online/" class="play-now-btn play-btn" data-id="rp-Buzzy-Bounce">PlayNow</a>
+                    <!-- Favourite Heart Button -->
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+                <!--Game Card 3-->
+
+
+                <div class="game-card" data-game-id="fav-Stellar-Defender">
+                    <img src="https://games.gamebin.online/324058ff9_logo.png" alt="Game 3">
+                    <p>Stellar Defender</p>
+                    <a href="https://www.gamebin.online/" class="play-now-btn play-btn" data-id="rp-Stellar-Defender">PlayNow</a>
+                    <!-- Favourite Heart Button -->
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+
+                <!--<div class="game-card" data-game-id="fav-Stellar-Defender">
+                    style="flex: 0 0 auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.080); margin-left:12px; border-radius: 30px;"
+                    <img src="https://games.gamebin.online/324058ff9_logo.png" alt="Game 3"> class="game-img"
+                        style="width: 140px; height: 120px; border-radius: 10px; display: block; margin-bottom: 10px; border-radius: 30px 30px 0 0;"
+                    <p style="font-size:14px; font-weight: bold;">Stellar Defender</p>
+                    <a href="#game3" class="play-now-btn play-btn" data-id="rp-Stellar-Defender">
+                        style="display: inline-block; background-color: #060B30; color: white; padding: 8px 16px; text-decoration: none; border-radius: 50px; font-size: 14px; margin-bottom: 10px;"PlayNow</a>
+                    Favourite Heart Button
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>-->
+
+                <!-- Game Card 4 -->
+                <div class="game-card" data-game-id="fav-Tic-Tac-Toe">
+                    <img src="https://games.gamebin.online/TTTimg.png" alt="Game 2">
+                    <p>Tic-Tic-Toe</p>
+                    <a href="#game2" class="play-now-btn play-btn" data-id="rp-Tic-Tac-Toe">PlayNow</a>
+                <!-- Favourite Heart Button -->
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+                <!-- Game Card 5 -->
+                <div class="game-card" data-game-id="fav-Classic-Chess">
+                    <img src="https://games.gamebin.online/Chess.png" alt="Game 2">
+                    <p>Classic Chess</p>
+                    <a href="#game2" class="play-now-btn play-btn" data-id="rp-Classic-Chess">PlayNow</a>
+                    <!-- Favourite Heart Button -->
+                    <button class="favourite-btn">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+                <!-- Game Card 3 (Upcoming Game with Curtain) -->
+                <div class="game-card upcoming cs" data-game-id="g-newgame1" data-status="coming-soon">
+                    <img src="https://www.gamebin.online/Buzzy%20Bounce%20Image.png" alt="Game 3">
+                    <p>######</p>
+                    <a href="#game3" class="play-btn">PlayNow</a>
+                    <div class="curtain">Coming Soon</div>
+                </div>
+            </div>
+            <div style="padding-bottom:40px;"></div>
+            <!--ALL GAMES END-->
+            <script src="script.js"></script>
+
+            <!--SCRIPT FOR NOTIFICATION TO APPEAR/DISAPPEAR-->
+
+           <!--SCRIPT FOR NOTIFICATION TO APPEAR/DISAPPEAR-->
+
+            <script>
+                async function checkNotification() {
+                try {
+                    const response = await fetch('notification.json?cacheBust=' + Date.now());
+                    const data = await response.json();
+
+                    const dot = document.getElementById('notifDot');
+                    const seenVersion = localStorage.getItem('notifSeenVersion');
+
+                    if (data.hasNewNotification && data.notificationVersion != seenVersion) {
+                    dot.style.display = 'block';
+                    dot.classList.add('glow'); // optional glow effect
+                    } else {
+                    dot.style.display = 'none';
+                    dot.classList.remove('glow');
+                    }
+                } catch (err) {
+                    console.error('Error checking notification:', err);
+                }
+                }
+
+                // When user clicks the bell, mark this version as seen
+                document.getElementById('notifLink').addEventListener('click', async () => {
+                try {
+                    const response = await fetch('notification.json?cacheBust=' + Date.now());
+                    const data = await response.json();
+                    localStorage.setItem('notifSeenVersion', data.notificationVersion);
+                    const dot = document.getElementById('notifDot');
+                    dot.style.display = 'none';
+                    dot.classList.remove('glow');
+                } catch (err) {
+                    console.error('Error marking notification as seen:', err);
+                }
+                });
+
+                // Initial check and repeat every 15 seconds
+                checkNotification();
+                setInterval(checkNotification, 5000);
+            </script>
+</body>
+
+</html>
