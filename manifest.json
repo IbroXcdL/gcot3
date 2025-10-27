@@ -2,35 +2,35 @@
   "name": "GameBin",
   "short_name": "GameBin",
   "description": "Play and discover latest games — anywhere, anytime!",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/Logo.png",
+      "src": "./Logo.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "/Logo.png",
+      "src": "./Logo.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "/Logo.png",
+      "src": "./Logo.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "/Logo.png",
+      "src": "./Logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Logo.png",
+      "src": "./Logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
