@@ -1,11 +1,11 @@
 const APP_VERSION = '1.0.0';
 const CACHE_NAME = 'gamebin-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/Logo.png',
+  './',
+  './index.html',
+  './styles.css',
+  './script.js',
+  './Logo.png'
 ];
 
 self.addEventListener('install', event => {
@@ -36,3 +36,4 @@ self.addEventListener('message', (event) => {
     event.source.postMessage({ type: 'VERSION', version: APP_VERSION });
   }
 });
+
