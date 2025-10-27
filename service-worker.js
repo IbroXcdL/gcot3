@@ -28,7 +28,7 @@ self.addEventListener('activate', event => {
       Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
-
+});
 
 // --- VERSION COMMUNICATION WITH FRONTEND ---
 self.addEventListener('message', (event) => {
@@ -36,5 +36,3 @@ self.addEventListener('message', (event) => {
     event.source.postMessage({ type: 'VERSION', version: APP_VERSION });
   }
 });
-});
-
