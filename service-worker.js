@@ -28,12 +28,13 @@ self.addEventListener('activate', event => {
       Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
-});
+
 
 // --- VERSION COMMUNICATION WITH FRONTEND ---
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'GET_VERSION') {
     event.source.postMessage({ type: 'VERSION', version: APP_VERSION });
   }
+});
 });
 
