@@ -84,6 +84,28 @@
 
             <!--Notification icon for notification page end-->
 
+<!-- 🔄 Update Available Widget -->
+<div id="updateAppContainer" style="
+  display:none;
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#1d1d1d;
+  color:white;
+  padding:10px 15px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  z-index:2000;
+  text-align:center;
+  font-family:sans-serif;
+  animation: fadeIn 0.4s ease;
+  cursor:pointer;
+">
+  <i class="fa fa-sync-alt fa-spin" id="updateIcon" style="font-size:20px;"></i>
+  <p id="updateText" style="font-size:12px;margin-top:4px;">Update available</p>
+</div>
+
+            
             <!-- 3. Donut Button / Back Button -->
             <button class="donut-button" id="donut-page-link">
                 Buy me a Donut
@@ -683,6 +705,7 @@
 
 
 </html>
+
 
 
 
