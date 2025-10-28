@@ -1262,7 +1262,7 @@ NOTIFICATION RED DOT CSS END*/
   right: 12px;
   background: transparent;
   border: none;
-  color: #666;
+  color: #ee6912;
   font-size: 20px;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.2s ease;
@@ -1277,6 +1277,7 @@ NOTIFICATION RED DOT CSS END*/
 .close-btn:active {
   transform: scale(0.95);
 }
+
 
 
 
