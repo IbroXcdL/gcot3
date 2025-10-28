@@ -606,37 +606,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// UPDATE APP CODE
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js').then(reg => {
-    reg.addEventListener('updatefound', () => {
-      const newWorker = reg.installing;
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          // Show the update widget
-          const updateContainer = document.getElementById('updateAppContainer');
-          updateContainer.style.display = 'block';
-        }
-      });
-    });
-  });
-}
-
-document.getElementById('updateAppContainer').addEventListener('click', () => {
-  const icon = document.getElementById('updateIcon');
-  const text = document.getElementById('updateText');
-  
-  // Show spinning animation
-  icon.classList.add('fa-spin');
-  text.textContent = 'Updating...';
-  
-  // Simulate background update delay (3–5 sec)
-  setTimeout(() => {
-    window.location.reload(true);
-  }, 4000);
-});
-
 
 
 
