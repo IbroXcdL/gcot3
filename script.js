@@ -469,28 +469,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // autoScroll('.image-ads-container', 2000);
 });
 
-// --- BOTTOM NAV AND SHARE BUTTON ---
-const moreBtn = document.getElementById("moreBtn");
-const bottomSheet = document.getElementById("bottomSheet");
-
-moreBtn.addEventListener("click", () => {
-  bottomSheet.classList.toggle("active");
-
-  const isActive = bottomSheet.classList.contains("active");
-
-  if (isActive) {
-    // 🔒 Stop background scroll
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.width = "100%";
-  } else {
-    // 🔓 Restore scroll
-    document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.width = "";
-  }
+// --- BOTTOM NAV AND SHARE BUTTON --- 
+const moreBtn = document.getElementById("moreBtn"); 
+const bottomSheet = document.getElementById("bottomSheet"); 
+moreBtn.addEventListener("click", () =>{ 
+bottomSheet.classList.toggle("active"); 
 });
-
 
 window.addEventListener("click", (e) => {
     if (bottomSheet.classList.contains("active") && !bottomSheet.contains(e.target) && !moreBtn.contains(e.target)) {
