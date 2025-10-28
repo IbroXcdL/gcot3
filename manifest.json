@@ -8,48 +8,18 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  // ===== ICONS =====
-  // The system automatically picks the best size depending on device & usage.
-  // For mobile-only apps (Android + iOS), only 192x192 and 512x512 are needed.
   "icons": [
     {
       "src": "./Logo.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable" // ✅ Main mobile app icon (Android & iOS)
+      "purpose": "any maskable" 
     },
     {
       "src": "./Logo.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable" // ✅ Used for splash screen & adaptive icons
+      "purpose": "any maskable" 
     }
-
-    // --- OPTIONAL ICONS BELOW (kept for reference) ---
-    // {
-    //   "src": "./Logo.png",
-    //   "sizes": "72x72",
-    //   "type": "image/png"
-    //   // 📱 Small low-DPI devices, old Androids
-    // },
-    // {
-    //   "src": "./Logo.png",
-    //   "sizes": "96x96",
-    //   "type": "image/png"
-    //   // 💻 Some tablets or mid-res displays
-    // },
-    // {
-    //   "src": "./Logo.png",
-    //   "sizes": "144x144",
-    //   "type": "image/png"
-    //   // 🔔 App switchers, legacy Android shortcuts
-    // }
   ]
 }
-
-
-
-
-
-
-
