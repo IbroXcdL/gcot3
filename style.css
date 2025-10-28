@@ -1251,33 +1251,3 @@ NOTIFICATION RED DOT CSS END*/
   border-radius: 50%;
   border: 2px solid white; /* clean border around dot */
 }
-
-
-
-
-/*STYLE FOR SLIDER CLOSE BUTTON*/
-.close-btn {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  color: #ee6912;
-  font-size: 20px;
-  cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
-  z-index: 10;
-}
-
-.close-btn:hover {
-  color: #000;
-  transform: scale(1.1);
-}
-
-.close-btn:active {
-  transform: scale(0.95);
-}
-
-
-
-
