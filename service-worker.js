@@ -1,4 +1,4 @@
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.9.2';
 const CACHE_NAME = 'gamebin-cache-v1';
 const urlsToCache = [
   './',
@@ -54,5 +54,6 @@ self.addEventListener('message', (event) => {
     });
   }
 });
+
 
 
