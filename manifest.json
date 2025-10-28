@@ -7,7 +7,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "transparent",
+  "theme_color": "#ffffff",
   // ===== ICONS =====
   // The system automatically picks the best size depending on device & usage.
   // For mobile-only apps (Android + iOS), only 192x192 and 512x512 are needed.
@@ -46,6 +46,7 @@
     // }
   ]
 }
+
 
 
 
