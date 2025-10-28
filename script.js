@@ -609,4 +609,66 @@ if ('serviceWorker' in navigator) {
 
 
 
+// ===================== APP UPDATE SYSTEM =====================
+document.addEventListener('DOMContentLoaded', () => {
+  const CURRENT_VERSION = '1.9.3'; // Change this when releasing a new version
+  const updateBtn = document.getElementById('checkUpdateBtn');
+  const progressContainer = document.getElementById('updateProgress');
+  const progressBar = document.getElementById('progressBar');
+
+  if (!updateBtn) return;
+
+  updateBtn.addEventListener('click', async () => {
+    try {
+      const response = await fetch('./manifest.json?cacheBust=' + Date.now());
+      const manifest = await response.json();
+
+      if (manifest.version !== CURRENT_VERSION) {
+        // ✅ Show progress animation (update available)
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
+
+        // Animate progress bar smoothly
+        setTimeout(() => {
+          progressBar.style.transition = 'width 3s linear';
+          progressBar.style.width = '100%';
+        }, 100);
+
+        // Reload app after progress completes
+        setTimeout(() => {
+          progressContainer.style.display = 'none';
+          location.reload(true);
+        }, 4000);
+      } else {
+        // 🚫 No update available
+        progressContainer.style.display = 'none';
+
+        // Create a floating message
+        const message = document.createElement('div');
+        message.textContent = '✅ No updates available';
+        message.style.position = 'fixed';
+        message.style.bottom = '20px';
+        message.style.left = '50%';
+        message.style.transform = 'translateX(-50%)';
+        message.style.background = '#f0f0f0';
+        message.style.color = '#000';
+        message.style.padding = '10px 20px';
+        message.style.borderRadius = '8px';
+        message.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+        message.style.fontSize = '14px';
+        message.style.zIndex = '9999';
+        document.body.appendChild(message);
+
+        // Remove after 2 seconds
+        setTimeout(() => {
+          message.remove();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Error checking for updates:', error);
+      alert('⚠️ Failed to check for updates.');
+    }
+  });
+});
+
 
