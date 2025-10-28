@@ -477,6 +477,18 @@ moreBtn.addEventListener("click", () => {
     bottomSheet.classList.toggle("active");
 });
 
+//this is logic for x closing button as well
+const closeSheet = document.getElementById('closeSheet');
+
+if (closeSheet && bottomSheet) {
+  closeSheet.addEventListener('click', () => {
+    bottomSheet.classList.remove('active');
+  });
+}
+//this is logic for x closing button as well end
+
+
+
 window.addEventListener("click", (e) => {
     if (bottomSheet.classList.contains("active") && !bottomSheet.contains(e.target) && !moreBtn.contains(e.target)) {
         bottomSheet.classList.remove("active");
@@ -606,3 +618,4 @@ if ('serviceWorker' in navigator) {
     window.location.reload();
   });
 }
+
