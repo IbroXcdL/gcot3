@@ -479,7 +479,6 @@ moreBtn.addEventListener("click", () => {
 
 //this is logic for x closing button as well
 const closeSheet = document.getElementById('closeSheet');
-
 if (closeSheet && bottomSheet) {
   closeSheet.addEventListener('click', () => {
     bottomSheet.classList.remove('active');
@@ -618,4 +617,5 @@ if ('serviceWorker' in navigator) {
     window.location.reload();
   });
 }
+
 
