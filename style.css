@@ -1251,3 +1251,13 @@ NOTIFICATION RED DOT CSS END*/
   border-radius: 50%;
   border: 2px solid white; /* clean border around dot */
 }
+
+
+
+
+
+    /*Animation*/
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
