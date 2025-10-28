@@ -557,32 +557,41 @@ document.querySelectorAll('.bottom-sheet .dropbtn').forEach(btn => {
 
 
 //PWA FILE
+// PWA FILE
 // ===== REGISTER SERVICE WORKER =====
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/service-worker.js')
-    .then(registration => {
+    .then(() => {
       console.log('Service Worker Registered!');
+      // Wait until the service worker is active and controlling the page
+      return navigator.serviceWorker.ready;
+    })
+    .then(() => {
+      console.log('Service Worker Ready!');
 
       // --- Ask Service Worker for version ---
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
-      } else {
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
+      function requestAppVersion() {
+        if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
-        });
+        } else {
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
+          });
+        }
       }
 
       // --- Listen for version response ---
       navigator.serviceWorker.addEventListener('message', event => {
         if (event.data && event.data.type === 'VERSION') {
-          const version = event.data.version;
-          console.log('App Version:', version);
-
           const versionElement = document.getElementById('app-version');
-          if (versionElement) versionElement.textContent = `v${version}`;
+          if (versionElement) versionElement.textContent = `v${event.data.version}`;
+          console.log('App Version:', event.data.version);
         }
       });
+
+      // Request version once ready
+      requestAppVersion();
     })
     .catch(err => console.error('Service Worker Failed:', err));
 }
