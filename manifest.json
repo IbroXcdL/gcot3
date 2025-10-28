@@ -1,6 +1,6 @@
 {
   "name": "GameBin",
-  "short_name": "GameBin",
+  "short_name": "GameBin v1.9.2",
   "version": "1.9.2",
   "description": "Play and discover latest games — anywhere, anytime!",
   "start_url": "./index.html",
@@ -46,4 +46,5 @@
     // }
   ]
 }
+
 
