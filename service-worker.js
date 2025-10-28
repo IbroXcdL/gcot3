@@ -31,8 +31,27 @@ self.addEventListener('activate', event => {
 });
 
 // --- VERSION COMMUNICATION WITH FRONTEND ---
+// --- VERSION COMMUNICATION WITH FRONTEND ---
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'GET_VERSION') {
-    event.source.postMessage({ type: 'VERSION', version: APP_VERSION });
+    const payload = { type: 'VERSION', version: APP_VERSION };
+
+    // Try to reply directly to the source (works in many browsers)
+    if (event.source && typeof event.source.postMessage === 'function') {
+      try {
+        event.source.postMessage(payload);
+        return;
+      } catch (err) {
+        // fall through to clients-matchAll fallback
+      }
+    }
+
+    // Fallback: broadcast to all controlled clients
+    self.clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(clients => {
+      clients.forEach(client => {
+        try { client.postMessage(payload); } catch (e) { /* ignore */ }
+      });
+    });
   }
 });
+
