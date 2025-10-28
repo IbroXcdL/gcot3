@@ -126,12 +126,47 @@
                 <span>Meet Me</span>
             </a>
         </div>
-        <div class="nav-item">
+
+
+  <!--<div class="nav-item">
             <a href="https://yourappstorelink.com" target="_blank" class="nav-link">
                 <i class="fa fa-th" aria-hidden="true"></i>
                 <span>App Store</span>
             </a>
-        </div>
+        </div>-->
+
+<!--UPDATE CHECK-->
+        <div class="nav-item">
+  <button id="checkUpdateBtn" class="nav-link update" style="background:none; border:none; cursor:pointer;">
+    <i class="fa fa-sync" aria-hidden="true"></i>
+    <span style="font-size:12px;">Update App</span>
+  </button>
+</div>
+
+<!-- Progress animation (hidden by default) -->
+<div id="updateProgress" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 400px;
+  height: 6px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  display: none;
+">
+  <div id="progressBar" style="
+    width: 0%;
+    height: 100%;
+    background: #000;
+    transition: width 4s linear;
+  "></div>
+</div>
+<!--UPDATE CHECK-->
+
+        
         <div class="nav-item" id="allgamebutton">
             <i class="fa-solid fa-gamepad"></i>
             <span>All Games</span>
@@ -684,6 +719,7 @@
 
 
 </html>
+
 
 
 
