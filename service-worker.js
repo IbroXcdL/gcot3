@@ -3,7 +3,7 @@ const CACHE_NAME = 'gamebin-cache-v1';
 const urlsToCache = [
   './',
   './index.html',
-  './styles.css',
+  './style.css',
   './script.js',
   './Logo.png'
 ];
@@ -54,4 +54,5 @@ self.addEventListener('message', (event) => {
     });
   }
 });
+
 
