@@ -475,6 +475,14 @@ const bottomSheet = document.getElementById("bottomSheet");
 
 moreBtn.addEventListener("click", () => {
     bottomSheet.classList.toggle("active");
+    
+ // 🔒 Lock or unlock scroll based on sheet state
+  if (bottomSheet.classList.contains("active")) {
+    document.body.style.overflow = "hidden"; // Disable page scroll
+  } else {
+    document.body.style.overflow = ""; // Enable scroll again
+  }
+    
 });
 
 window.addEventListener("click", (e) => {
@@ -606,6 +614,7 @@ if ('serviceWorker' in navigator) {
     window.location.reload();
   });
 }
+
 
 
 
